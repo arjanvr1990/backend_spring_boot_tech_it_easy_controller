@@ -1,12 +1,11 @@
 package com.novi.backend_spring_boot_tech_it_easy_controller.controllers;
 
 import com.novi.backend_spring_boot_tech_it_easy_controller.models.TelevisionRequest;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@SpringBootApplication
+
 @RequestMapping("/api/televisions")
 public class TelevisionsController {
 
@@ -23,8 +22,7 @@ public class TelevisionsController {
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
-    @PostMapping
-    @PutMapping("/{id}")
+    @PostMapping ()
     public ResponseEntity<String> createTelevision(@RequestBody TelevisionRequest televisionRequest) {
         String responseMessage = String.format("Television received: %s", televisionRequest.getName());
         return new ResponseEntity<>(responseMessage, HttpStatus.CREATED);
