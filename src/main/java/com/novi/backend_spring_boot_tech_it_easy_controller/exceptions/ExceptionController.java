@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionController {
 
-    @ExceptionHandler(TelevisionNotFoundException.class)
-    public ResponseEntity<String> handleTelevisionNotFoundException(TelevisionNotFoundException ex) {
+    @ExceptionHandler(RecordNotFoundException.class)
+    public ResponseEntity<String> handleTelevisionNotFoundException(RecordNotFoundException ex) {
         // Return een response met een aangepaste boodschap en een statuscode
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
