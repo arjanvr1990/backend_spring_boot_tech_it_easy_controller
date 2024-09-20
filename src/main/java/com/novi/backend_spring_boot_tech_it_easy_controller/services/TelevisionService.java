@@ -2,6 +2,7 @@ package com.novi.backend_spring_boot_tech_it_easy_controller.services;
 
 import com.novi.backend_spring_boot_tech_it_easy_controller.dtos.TelevisionDto;
 import com.novi.backend_spring_boot_tech_it_easy_controller.dtos.TelevisionInputDto;
+import com.novi.backend_spring_boot_tech_it_easy_controller.exceptions.RecordNotFoundException;
 import com.novi.backend_spring_boot_tech_it_easy_controller.models.Television;
 import com.novi.backend_spring_boot_tech_it_easy_controller.repositories.TelevisionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,4 +51,13 @@ public class TelevisionService {
         dto.setPrice(television.getPrice());
         return dto;
     }
+
+    public void deleteTelevision(Long id) {
+        boolean exists = televisionRepository.existsById(id);
+        if (!exists) {
+            throw new RecordNotFoundException("Television with ID " + id + " not found");
+        }
+        televisionRepository.deleteById(id);
+    }
+
 }

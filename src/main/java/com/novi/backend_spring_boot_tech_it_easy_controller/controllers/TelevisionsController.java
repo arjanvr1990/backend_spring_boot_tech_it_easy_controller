@@ -23,6 +23,7 @@ public class TelevisionsController {
 
 
     @GetMapping
+    @ResponseBody
     public ResponseEntity<List<TelevisionDto>> getAllTelevisions() {
         List<TelevisionDto> televisions = televisionService.getAllTelevisions();
         return new ResponseEntity<>(televisions, HttpStatus.OK);
@@ -34,4 +35,11 @@ public class TelevisionsController {
         TelevisionDto createdTelevision = televisionService.createTelevision(televisionInputDto);
         return new ResponseEntity<>(createdTelevision, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTelevision(@PathVariable Long id) {
+        televisionService.deleteTelevision(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }
