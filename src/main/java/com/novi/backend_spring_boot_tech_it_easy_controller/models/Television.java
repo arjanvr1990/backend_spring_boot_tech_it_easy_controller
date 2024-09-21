@@ -1,10 +1,6 @@
 package com.novi.backend_spring_boot_tech_it_easy_controller.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import org.springframework.core.StandardReflectionParameterNameDiscoverer;
+import jakarta.persistence.*;
 
 @Entity
 public class Television {
@@ -13,10 +9,15 @@ public class Television {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String type;
+    @Column(nullable = false)
     private String brand;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private Double price;
+
     private Double availableSize;
     private Integer refreshRate;
     private String screenType;
@@ -113,8 +114,8 @@ public Television(Long id, String type, String brand, String name, Double price,
         return refreshRate;
     }
 
-    public void setRefreshRate() {
-        this.refreshRate = refreshRate;
+    public void setRefreshRate(Integer refreshRate) {
+        this.refreshRate = this.refreshRate;
     }
 
     public String getScreenType() {
