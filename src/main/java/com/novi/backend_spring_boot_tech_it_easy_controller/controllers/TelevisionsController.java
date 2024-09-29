@@ -29,6 +29,13 @@ public class TelevisionsController {
         return new ResponseEntity<>(televisions, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<TelevisionDto> updateTelevision(@PathVariable Long id, @RequestBody TelevisionDto televisionDto) {
+        TelevisionDto updatedTelevision = televisionService.updateTelevision(id, televisionDto);
+        return new ResponseEntity<>(updatedTelevision, HttpStatus.OK);
+    }
+
+
 
     @PostMapping
     public ResponseEntity<TelevisionDto> createTelevision(@Valid @RequestBody TelevisionInputDto televisionInputDto) {

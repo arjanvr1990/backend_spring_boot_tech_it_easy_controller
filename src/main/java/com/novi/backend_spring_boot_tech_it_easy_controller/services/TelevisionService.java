@@ -39,6 +39,23 @@ public class TelevisionService {
 //                .collect(Collectors.toList());
     }
 
+    public TelevisionDto updateTelevision(Long id, TelevisionDto televisionDto) {
+
+        Television television = televisionRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Television not found"));
+
+
+        television.setName(televisionDto.getName());
+        television.setBrand(televisionDto.getBrand());
+        television.setPrice(televisionDto.getPrice());
+
+
+        television = televisionRepository.save(television);
+
+
+        return convertToDto(television);
+    }
+
 
 
 
