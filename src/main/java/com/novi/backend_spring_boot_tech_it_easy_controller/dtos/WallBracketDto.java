@@ -1,20 +1,17 @@
-package com.novi.backend_spring_boot_tech_it_easy_controller.Dtos;
+package com.novi.backend_spring_boot_tech_it_easy_controller.dtos;
 
 
-public class RemoteControllerDto {
+public class WallBracketDto {
 
     private Long id;
     private String name;
     private String brand;
     private Double price;
-    private Boolean smartTv;
-    private Boolean voiceControl;
-    private Boolean bluetooth;
+    private Double availableSize;
     private Integer originalStock;
     private Integer sold;
-
-    private String batteryType;
     private String compatibleWith;
+
 
 
     public Long getId() {
@@ -49,33 +46,12 @@ public class RemoteControllerDto {
         this.price = price;
     }
 
-
-    public Boolean getSmartTv() {
-        return smartTv;
+    public Double getAvailableSize() {
+        return availableSize;
     }
 
-    public void setSmartTv(Boolean smartTv) {
-        this.smartTv = smartTv;
-    }
-
-
-
-    public Boolean getVoiceControl() {
-        return voiceControl;
-    }
-
-    public void setVoiceControl(Boolean voiceControl) {
-        this.voiceControl = voiceControl;
-    }
-
-
-
-    public Boolean getBluetooth() {
-        return bluetooth;
-    }
-
-    public void setBluetooth(Boolean bluetooth) {
-        this.bluetooth = bluetooth;
+    public void setAvailableSize(Double availableSize) {
+        this.availableSize = availableSize;
     }
 
 
@@ -94,11 +70,6 @@ public class RemoteControllerDto {
     public void setSold(Integer sold) {
         this.sold = sold;
     }
-
-    public String getBatteryType() {return batteryType;}
-
-    public void setBatteryType(String batteryType) {this.batteryType = batteryType;}
-
 
     public String getCompatibleWith() {return compatibleWith; }
 

@@ -1,7 +1,7 @@
-package com.novi.backend_spring_boot_tech_it_easy_controller.Dtos;
+package com.novi.backend_spring_boot_tech_it_easy_controller.dtos;
 
 
-public class RemoteControllerInputDto {
+public class RemoteControllerDto {
 
     private Long id;
     private String name;
