@@ -54,6 +54,8 @@ public class RemoteController {
         this.compatibleWith =compatibleWith;
     }
 
+    @OneToOne(mappedBy = "remoteController")
+    private Television television;
 
     public Long getId() {
         return id;
@@ -144,4 +146,12 @@ public class RemoteController {
     public String getCompatibleWith() {return compatibleWith; }
 
     public void setCompatibleWith(String compatibleWith) {this.compatibleWith = compatibleWith;}
+
+    public Television getTelevision() {
+        return television;
+    }
+
+    public void setTelevision(Television television) {
+        this.television = television;
+    }
 }

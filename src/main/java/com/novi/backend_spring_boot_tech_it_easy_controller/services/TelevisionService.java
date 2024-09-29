@@ -1,10 +1,10 @@
 package com.novi.backend_spring_boot_tech_it_easy_controller.services;
 
-import ch.qos.logback.core.pattern.FormatInfo;
 import com.novi.backend_spring_boot_tech_it_easy_controller.dtos.TelevisionDto;
 import com.novi.backend_spring_boot_tech_it_easy_controller.dtos.TelevisionInputDto;
 import com.novi.backend_spring_boot_tech_it_easy_controller.exceptions.RecordNotFoundException;
 import com.novi.backend_spring_boot_tech_it_easy_controller.models.Television;
+import com.novi.backend_spring_boot_tech_it_easy_controller.repositories.RemoteControllerRepository;
 import com.novi.backend_spring_boot_tech_it_easy_controller.repositories.TelevisionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,47 +17,44 @@ import java.util.stream.Collectors;
 public class TelevisionService {
 
     private final TelevisionRepository televisionRepository;
+    private final RemoteControllerRepository remoteControllerRepository;
 
     @Autowired
-    public TelevisionService(TelevisionRepository televisionRepository) {
+    public TelevisionService(TelevisionRepository televisionRepository, RemoteControllerRepository remoteControllerRepository) {
         this.televisionRepository = televisionRepository;
+        this.remoteControllerRepository = remoteControllerRepository;
     }
 
     public List<TelevisionDto> getAllTelevisions() {
         List<Television> televisionsList = televisionRepository.findAll();
-        List<TelevisionDto> televisionDtoList = new ArrayList<>();
-        for (Television television: televisionsList
-             ) {
-            TelevisionDto televisionDto = convertToDto(television);
-            televisionDtoList.add(televisionDto);
-        }
-        return televisionDtoList;
-
-//        return televisionsList.stream()
-//                .map(this::convertToDto)
-
-//                .collect(Collectors.toList());
+        return televisionsList.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
-    public TelevisionDto updateTelevision(Long id, TelevisionDto televisionDto) {
-
+    public TelevisionDto updateTelevision(Long id, TelevisionInputDto televisionInputDto) {
         Television television = televisionRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Television not found"));
 
-
-        television.setName(televisionDto.getName());
-        television.setBrand(televisionDto.getBrand());
-        television.setPrice(televisionDto.getPrice());
-
+        television.setName(televisionInputDto.getName());
+        television.setBrand(televisionInputDto.getBrand());
+        television.setPrice(televisionInputDto.getPrice());
+        television.setAvailableSize(televisionInputDto.getAvailableSize());
+        television.setRefreshRate(televisionInputDto.getRefreshRate());
+        television.setScreenType(televisionInputDto.getScreenType());
+        television.setScreenQuality(televisionInputDto.getScreenQuality());
+        television.setSmartTv(televisionInputDto.getSmartTv());
+        television.setWifi(televisionInputDto.getWifi());
+        television.setVoiceControl(televisionInputDto.getVoiceControl());
+        television.setHdr(televisionInputDto.getHdr());
+        television.setBluetooth(televisionInputDto.getBluetooth());
+        television.setAmbiLight(televisionInputDto.getAmbiLight());
+        television.setOriginalStock(televisionInputDto.getOriginalStock());
+        television.setSold(televisionInputDto.getSold());
 
         television = televisionRepository.save(television);
-
-
         return convertToDto(television);
     }
-
-
-
 
     public TelevisionDto createTelevision(TelevisionInputDto inputDto) {
         Television television = new Television();
@@ -77,13 +74,9 @@ public class TelevisionService {
         television.setOriginalStock(inputDto.getOriginalStock());
         television.setSold(inputDto.getSold());
 
-
         television = televisionRepository.save(television);
-
-
         return convertToDto(television);
     }
-
 
     private TelevisionDto convertToDto(Television television) {
         TelevisionDto dto = new TelevisionDto();
@@ -103,10 +96,6 @@ public class TelevisionService {
         dto.setAmbiLight(television.getAmbiLight());
         dto.setOriginalStock(television.getOriginalStock());
         dto.setSold(television.getSold());
-
-
-
-
         return dto;
     }
 
@@ -117,5 +106,4 @@ public class TelevisionService {
         }
         televisionRepository.deleteById(id);
     }
-
 }

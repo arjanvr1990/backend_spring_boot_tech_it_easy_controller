@@ -60,15 +60,17 @@ public Television(Long id, String type, String brand, String name, Double price,
         this.sold = sold;
 }
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "remote_controller_id", referencedColumnName = "id")
+    private RemoteController remoteController;
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
-
-
 
     public String getType() {
         return type;
@@ -196,6 +198,14 @@ public Television(Long id, String type, String brand, String name, Double price,
 
     public void setSold(Integer sold) {
         this.sold = sold;
+    }
+
+    public RemoteController getRemoteController() {
+        return remoteController;
+    }
+
+    public void setRemoteController(RemoteController remoteController) {
+        this.remoteController = remoteController;
     }
 
 }

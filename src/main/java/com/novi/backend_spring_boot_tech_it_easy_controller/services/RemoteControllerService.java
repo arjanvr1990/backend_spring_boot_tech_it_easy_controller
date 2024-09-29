@@ -3,7 +3,9 @@ package com.novi.backend_spring_boot_tech_it_easy_controller.services;
 import com.novi.backend_spring_boot_tech_it_easy_controller.dtos.RemoteControllerDto;
 import com.novi.backend_spring_boot_tech_it_easy_controller.dtos.RemoteControllerInputDto;
 import com.novi.backend_spring_boot_tech_it_easy_controller.models.RemoteController;
+import com.novi.backend_spring_boot_tech_it_easy_controller.models.Television;
 import com.novi.backend_spring_boot_tech_it_easy_controller.repositories.RemoteControllerRepository;
+import com.novi.backend_spring_boot_tech_it_easy_controller.repositories.TelevisionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,23 @@ import java.util.List;
 public class RemoteControllerService {
 
     private final RemoteControllerRepository remoteControllerRepository;
+    private final TelevisionRepository televisionRepository;
 
     @Autowired
-    public RemoteControllerService(RemoteControllerRepository remoteControllerRepository) {
+    public RemoteControllerService(RemoteControllerRepository remoteControllerRepository, TelevisionRepository televisionRepository) {
         this.remoteControllerRepository = remoteControllerRepository;
+        this.televisionRepository = televisionRepository;
+    }
+
+    public void linkRemoteControllerToTelevision(Long televisionId, Long remoteControllerId) {
+        Television television = televisionRepository.findById(televisionId)
+                .orElseThrow(() -> new RuntimeException("Television not found"));
+        RemoteController remoteController = remoteControllerRepository.findById(remoteControllerId)
+                .orElseThrow(() -> new RuntimeException("RemoteController not found"));
+
+        television.setRemoteController(remoteController);
+
+        televisionRepository.save(television);
     }
 
     public List<RemoteControllerDto> getAllRemoteControllers() {
