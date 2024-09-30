@@ -23,7 +23,6 @@ public class TelevisionsController {
         this.televisionService = televisionService;
     }
 
-
     @GetMapping
     public ResponseEntity<List<TelevisionDto>> getAllTelevisions() {
         List<TelevisionDto> televisions = televisionService.getAllTelevisions();
@@ -36,13 +35,18 @@ public class TelevisionsController {
         return new ResponseEntity<>(updatedTelevision, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/remotecontroller")
+    // POST-request voor het aanmaken van een nieuwe televisie
+    @PostMapping
+    public ResponseEntity<TelevisionDto> createTelevision(@Valid @RequestBody TelevisionInputDto televisionInputDto) {
+        TelevisionDto createdTelevision = televisionService.createTelevision(televisionInputDto);
+        return new ResponseEntity<>(createdTelevision, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{id}/remotecontroller")
     public ResponseEntity<Void> assignRemoteControllerToTelevision(@PathVariable("id") Long televisionId, @RequestBody TelevisionInputDto remoteControllerIdInput) {
         televisionService.linkRemoteControllerToTelevision(televisionId, remoteControllerIdInput.getId());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 
     @PutMapping("/{id}/remotecontroller")
     public ResponseEntity<Void> assignRemoteControllerToTelevision(@PathVariable("id") Long televisionId, @RequestBody IdInputDto remoteControllerIdInput) {
@@ -55,5 +59,4 @@ public class TelevisionsController {
         televisionService.deleteTelevision(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }
