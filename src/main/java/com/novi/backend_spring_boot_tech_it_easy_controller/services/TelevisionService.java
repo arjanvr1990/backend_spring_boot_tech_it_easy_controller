@@ -1,15 +1,16 @@
 package com.novi.backend_spring_boot_tech_it_easy_controller.services;
 
+import com.novi.backend_spring_boot_tech_it_easy_controller.dtos.RemoteControllerDto;
 import com.novi.backend_spring_boot_tech_it_easy_controller.dtos.TelevisionDto;
 import com.novi.backend_spring_boot_tech_it_easy_controller.dtos.TelevisionInputDto;
 import com.novi.backend_spring_boot_tech_it_easy_controller.exceptions.RecordNotFoundException;
+import com.novi.backend_spring_boot_tech_it_easy_controller.models.RemoteController;
 import com.novi.backend_spring_boot_tech_it_easy_controller.models.Television;
 import com.novi.backend_spring_boot_tech_it_easy_controller.repositories.RemoteControllerRepository;
 import com.novi.backend_spring_boot_tech_it_easy_controller.repositories.TelevisionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,10 +33,11 @@ public class TelevisionService {
                 .collect(Collectors.toList());
     }
 
-    public TelevisionDto updateTelevision(Long id, TelevisionInputDto televisionInputDto) {
+    public TelevisionDto updateTelevision(Long id, TelevisionDto televisionInputDto) {
         Television television = televisionRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Television not found"));
 
+        // Bijwerken van Television object met nieuwe gegevens
         television.setName(televisionInputDto.getName());
         television.setBrand(televisionInputDto.getBrand());
         television.setPrice(televisionInputDto.getPrice());
@@ -52,8 +54,23 @@ public class TelevisionService {
         television.setOriginalStock(televisionInputDto.getOriginalStock());
         television.setSold(televisionInputDto.getSold());
 
+        // Controleer of er een gekoppelde RemoteController is
+        if (television.getRemoteController() != null) {
+            RemoteControllerDto remoteControllerDto = convertToRemoteControllerDto(television.getRemoteController());
+            televisionInputDto.setRemoteController(remoteControllerDto);  // Stel de remoteController in het DTO object in
+        }
+
         television = televisionRepository.save(television);
-        return convertToDto(television);
+        return convertToDto(television);  // Return het bijgewerkte DTO
+    }
+
+    private RemoteControllerDto convertToRemoteControllerDto(RemoteController remoteController) {
+        RemoteControllerDto dto = new RemoteControllerDto();
+        dto.setId(remoteController.getId());
+        dto.setName(remoteController.getName());
+        dto.setBrand(remoteController.getBrand());
+        dto.setPrice(remoteController.getPrice());
+        return dto;
     }
 
     public TelevisionDto createTelevision(TelevisionInputDto inputDto) {
@@ -96,6 +113,13 @@ public class TelevisionService {
         dto.setAmbiLight(television.getAmbiLight());
         dto.setOriginalStock(television.getOriginalStock());
         dto.setSold(television.getSold());
+
+        // Voeg de RemoteController toe aan het Television DTO als deze bestaat
+        if (television.getRemoteController() != null) {
+            RemoteControllerDto remoteControllerDto = convertToRemoteControllerDto(television.getRemoteController());
+            dto.setRemoteController(remoteControllerDto);
+        }
+
         return dto;
     }
 
@@ -105,5 +129,15 @@ public class TelevisionService {
             throw new RecordNotFoundException("Television with ID " + id + " not found");
         }
         televisionRepository.deleteById(id);
+    }
+
+    public void linkRemoteControllerToTelevision(Long televisionId, Long remoteControllerId) {
+        Television television = televisionRepository.findById(televisionId)
+                .orElseThrow(() -> new RecordNotFoundException("Television not found"));
+        RemoteController remoteController = remoteControllerRepository.findById(remoteControllerId)
+                .orElseThrow(() -> new RecordNotFoundException("RemoteController not found"));
+
+        television.setRemoteController(remoteController);
+        televisionRepository.save(television);
     }
 }

@@ -18,6 +18,8 @@ public class TelevisionDto {
     private Boolean ambiLight;
     private Integer originalStock;
     private Integer sold;
+    
+    
 
 
 
@@ -147,5 +149,8 @@ public class TelevisionDto {
 
     public void setSold(Integer sold) {
         this.sold = sold;
+    }
+
+    public void setRemoteController(RemoteControllerDto remoteControllerDto) {
     }
 }

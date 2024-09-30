@@ -1,5 +1,6 @@
 package com.novi.backend_spring_boot_tech_it_easy_controller.controllers;
 
+import com.novi.backend_spring_boot_tech_it_easy_controller.dtos.IdInputDto;
 import com.novi.backend_spring_boot_tech_it_easy_controller.dtos.TelevisionDto;
 import com.novi.backend_spring_boot_tech_it_easy_controller.dtos.TelevisionInputDto;
 import com.novi.backend_spring_boot_tech_it_easy_controller.services.TelevisionService;
@@ -35,12 +36,18 @@ public class TelevisionsController {
         return new ResponseEntity<>(updatedTelevision, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}/remotecontroller")
+    public ResponseEntity<Void> assignRemoteControllerToTelevision(@PathVariable("id") Long televisionId, @RequestBody TelevisionInputDto remoteControllerIdInput) {
+        televisionService.linkRemoteControllerToTelevision(televisionId, remoteControllerIdInput.getId());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 
-    @PostMapping
-    public ResponseEntity<TelevisionDto> createTelevision(@Valid @RequestBody TelevisionInputDto televisionInputDto) {
-        TelevisionDto createdTelevision = televisionService.createTelevision(televisionInputDto);
-        return new ResponseEntity<>(createdTelevision, HttpStatus.CREATED);
+
+    @PutMapping("/{id}/remotecontroller")
+    public ResponseEntity<Void> assignRemoteControllerToTelevision(@PathVariable("id") Long televisionId, @RequestBody IdInputDto remoteControllerIdInput) {
+        televisionService.linkRemoteControllerToTelevision(televisionId, remoteControllerIdInput.getId());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")

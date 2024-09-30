@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class TelevisionInputDto {
 
-
+    private Long id;
     @NotNull
     private String name;
     @NotNull
@@ -24,7 +24,12 @@ public class TelevisionInputDto {
     private Integer originalStock;
     private Integer sold;
 
+    //remote controller//
+    private RemoteControllerDto remoteController;
 
+    public Long getId() {return id;}
+
+    public void setId(Long id) {this.id = id;}
 
     public String getName() {
         return name;
@@ -144,4 +149,13 @@ public class TelevisionInputDto {
     public void setSold(Integer sold) {
         this.sold = sold;
     }
+
+    public RemoteControllerDto getRemoteController() {
+        return remoteController;
+    }
+
+    public void setRemoteController(RemoteControllerDto remoteController) {
+        this.remoteController = remoteController;
+    }
+
 }
